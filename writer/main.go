@@ -42,8 +42,24 @@ func handler(w http.ResponseWriter, r *http.Request) {
 	buffer.WriteString(string(c))
 }
 
+// Populate the hostPath with per service account information.
+func populateBySA(sa string) error {
+	data := []byte(fmt.Sprintf("hello, %v!\n", sa))
+	path := fmt.Sprintf("/host/driver/%v/content.txt", sa)
+	if err := ioutil.WriteFile(path, data, 0644); err != nil {
+		fmt.Printf("failed to populateBySA for %v, err %v\n", sa, err)
+		return err
+	}
+	return nil
+}
+
 func main() {
 	fmt.Println("hello world, i'm hostpath writer server")
+
+	// Populate information for two sa.
+	populateBySA("sa1")
+	populateBySA("sa2")
+
 	http.HandleFunc("/", handler)
 	http.ListenAndServe(":8080", nil)
 }
