@@ -29,7 +29,7 @@ func handler(w http.ResponseWriter, r *http.Request) {
 			return
 		}
 		for _, f := range files {
-			buffer.WriteString(fmt.Sprintf("%v/%v<br>", path, f.Name()))
+			buffer.WriteString(fmt.Sprintf("%v%v<br/>", path, f.Name()))
 		}
 		return
 	}
